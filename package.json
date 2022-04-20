@@ -1,0 +1,14 @@
+{
+  "name": "eksamensprojekt-programmering",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Javad Asgari Shafique",
+  "license": "SEE LICENSE IN LICENSE",
+  "dependencies": {
+    "mysql8": "^2.17.3"
+  }
+}
