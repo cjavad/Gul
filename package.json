@@ -9,6 +9,7 @@
   "author": "Javad Asgari Shafique",
   "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
+    "discord.js": "^13.6.0",
     "mysql8": "^2.17.3"
   }
 }
