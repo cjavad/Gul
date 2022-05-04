@@ -1,8 +1,6 @@
 class SQLBase {
-    constructor(connection, tableBase) {
+    constructor(connection) {
         this.connection = connection;
-        //Laver table ved start, ud fra vores SQL kode.
-        this.makeQuery(tableBase);
     }
 
     makeQuery(queryString) {
@@ -14,6 +12,5 @@ class SQLBase {
         });
     }
 }
-
 
 module.exports = SQLBase;
