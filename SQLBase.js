@@ -1,5 +1,5 @@
 class SQLBase {
-    constructor(connection, tableBase) {
+    constructor(connection) {
         this.connection = connection;
     }
 

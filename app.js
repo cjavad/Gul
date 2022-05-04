@@ -24,12 +24,26 @@ const client = new Discord.Client({ intents: [Discord.Intents.FLAGS.GUILD_MESSAG
 
 
 // "Models" til de forskellige data struktuere fra MySQL
-const Bruger = new(require('./Bruger'))();
+const Bruger = new(require('./Bruger'))(connection);
 
 
 //this is an event listener. Looks out for the "ready" event
 client.on("ready", () => {
     console.log("LET'S GET READY TO do stuff :)");
+
+    // Test kode: På start lav en bruger eller tjek om den findes.
+    Bruger.getIdFromDiscord("207096175327707136").then(([userId]) => {
+            if (!userId) {
+                Bruger.createBruger("Javad", "207096175327707136");
+                console.log("Created user Javad");
+                return;
+            }
+            console.log("User exists!");
+            console.log(userId);
+        })
+        .catch(error => {
+            console.log(error);
+        });
 });
 //function(){} is the same as ()=>{}
 
