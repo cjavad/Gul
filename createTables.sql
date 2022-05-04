@@ -1,8 +1,4 @@
-CREATE DATABASE IF NOT EXISTS Gul;
-
-USE DATABASE Gul;
-
-CREATE TABLE IF NOT EXISTS Bruger (
+CREATE TABLE IF NOT EXISTS `Bruger` (
     id INT PRIMARY KEY AUTO_INCREMENT,
     navn VARCHAR(256),
     discordid VARCHAR(28) UNIQUE,
@@ -17,7 +13,9 @@ CREATE TABLE IF NOT EXISTS Bruger (
     last_used DATE
 );
 
-CREATE TABLE IF NOT EXISTS FighterPedia (
+--
+
+CREATE TABLE IF NOT EXISTS `FighterPedia` (
     id INT PRIMARY KEY AUTO_INCREMENT,
     navn VARCHAR(256),
     billede BLOB,
@@ -28,7 +26,9 @@ CREATE TABLE IF NOT EXISTS FighterPedia (
     rarity FLOAT
 );
 
-CREATE TABLE IF NOT EXISTS Fighter (
+--
+
+CREATE TABLE IF NOT EXISTS `Fighter` (
     id INT PRIMARY KEY AUTO_INCREMENT,
     custom_name VARCHAR(256),
     fid INT,
