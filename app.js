@@ -1,6 +1,7 @@
 //importing and configures dotenv
 const dotenv = require('dotenv');
 dotenv.config();
+const prefix = process.env.DISCORD_PREFIX;
 
 // MySQL Stuff
 const mysql = require('mysql8');
@@ -31,22 +32,30 @@ const Bruger = new(require('./Bruger'))(connection);
 //this is an event listener. Looks out for the "ready" event
 client.on("ready", () => {
     console.log("LET'S GET READY TO do stuff :)");
-
-    // Test kode: På start lav en bruger eller tjek om den findes.
-    Bruger.getIdFromDiscord("207096175327707136").then(([userId]) => {
-            if (!userId) {
-                Bruger.createBruger("Javad", "207096175327707136");
-                console.log("Created user Javad");
-                return;
-            }
-            console.log("User exists!");
-            console.log(userId);
-        })
-        .catch(error => {
-            console.log(error);
-        });
 });
 //function(){} is the same as ()=>{}
+
+function createUserIfNotExists(username,discordId){
+    return Bruger.getIdFromDiscord(discordId).then(([userId]) => {
+        if(!userId){
+            return Bruger.createBruger(username,discordId)
+                .then((responsible)=>{
+                    return responsible.insertId;
+                });   
+        }
+        else {
+            return userId.id;
+        }
+    });
+}
+
+client.on('messageCreate',(message) => {
+   if(message.content.startsWith(prefix)){
+       createUserIfNotExists(message.author.username,message.author.id).then((brugerId)=>{
+            console.log(brugerId);
+       });
+   }
+});
 
 //using dotenv, login using the discord token :)
 client.login(process.env.DISCORD_TOKEN);
