@@ -14,4 +14,11 @@ class Bruger extends SQLBase {
     getBruger(id) {
         this.makeQuery(`SELECT * FROM bruger WHERE id = ${id};`);
     }
+    
+    updateMahogony(change, id){
+        this.makeQuery(`UPDATE bruger SET mahogony_coin = mahogony_coin + ${change} WHERE id = ${id};`);
+    }
+    updateXp(change, id) {
+        this.makeQuery(`UPDATE bruget SET xp_multiplier = xp_multiplier + ${change} WHERE id = ${id};`);
+    }
 }
