@@ -1,11 +1,15 @@
+//importing and configures dotenv
+const dotenv = require('dotenv');
+dotenv.config();
+
 // MySQL Stuff
 const mysql = require('mysql8');
 
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'Gul'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
 });
 
 connection.connect();
@@ -15,9 +19,6 @@ createTables.forEach(table => connection.query(table));
 
 const Discord = require('discord.js');
 
-//importing and configures dotenv
-const dotenv = require('dotenv');
-dotenv.config();
 
 //creating instance of this library
 const client = new Discord.Client({ intents: [Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MEMBERS, Discord.Intents.FLAGS.DIRECT_MESSAGES] });
