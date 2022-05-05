@@ -28,6 +28,9 @@ const client = new Discord.Client({ intents: [Discord.Intents.FLAGS.GUILD_MESSAG
 // "Models" til de forskellige data struktuere fra MySQL
 const Bruger = new(require('./Bruger'))(connection);
 
+// Initialisere Fighterpedia og skaber en connection til GUL
+const FighterPedia = new(require('./FighterPedia'))(connection);
+
 
 //this is an event listener. Looks out for the "ready" event
 client.on("ready", () => {
@@ -59,3 +62,5 @@ client.on('messageCreate',(message) => {
 
 //using dotenv, login using the discord token :)
 client.login(process.env.DISCORD_TOKEN);
+
+FighterPedia.createFighter("Søren", )

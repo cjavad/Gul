@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `Bruger` (
 CREATE TABLE IF NOT EXISTS `FighterPedia` (
     id INT PRIMARY KEY AUTO_INCREMENT,
     navn VARCHAR(256),
-    billede BLOB,
+    billede VARCHAR(256),
     moves JSON,
     types JSON,
     stats JSON,

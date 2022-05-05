@@ -1,0 +1,9 @@
+{
+    "pound": {
+        "statsWeight": {
+            "Atk": 0.8,
+            "Spd": 0.5
+        },
+        "types": []
+    }
+}
