@@ -63,4 +63,7 @@ client.on('messageCreate',(message) => {
 //using dotenv, login using the discord token :)
 client.login(process.env.DISCORD_TOKEN);
 
-FighterPedia.createFighter("Søren", )
+FighterPedia.createFighter("Søren", "https://cdn.discordapp.com/attachments/682506068705673218/971706152498909224/unknown.png", 0, 1, {}, ["pound"], ["normal"])
+    .then(response => {
+        console.log(response);
+    });

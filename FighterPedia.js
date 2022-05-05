@@ -11,7 +11,8 @@ class FighterPedia extends SQLBase {
         let stats = {
             ...defaultStats,
             ...statsOption
-        }
+        };
+
         let types = allTypes.filter(v => possibleTypes.includes(v));
         
         let moves = Object.keys(allMoves).filter(v => possibleMoves.includes(v));
