@@ -4,6 +4,7 @@ class Fighter extends SQLBase {
     constructor(connection) {
         super(connection);
     }
+
     pullFighter(brugerId) {
         return this.makeQuery(`SELECT * FROM FighterPedia;`)
             .then(fp => {
@@ -14,7 +15,17 @@ class Fighter extends SQLBase {
                     });
             });
     }
-    createCustomName(customName) {
-        this.makeQuery(`U`)
+
+    setCustomName(customName, fighterId) {
+        return this.makeQuery(`UPDATE Fighter SET custom_name = "${customName}" WHERE id = ${fighterId};`);
     }
+    
+    getAllFighters(brugerId){
+        return this.makeQuery(`SELECT * FROM Fighter WHERE bid = ${brugerId};`);
+    }
+
+    upgradeFighter(addedStats,fighterId){
+        return this.makeQuery(`UPDATE Fighter SET added_stats = "${JSON.stringify(addedStats)}" WHERE id = ${fighterId}`); 
+    }
+    
 }
