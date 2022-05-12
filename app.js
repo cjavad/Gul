@@ -15,6 +15,9 @@ const connection = mysql.createConnection({
 
 connection.connect();
 
+// :o
+const commands = require('./commands')(connection);
+
 const createTables = require('./createTables');
 createTables.forEach(table => connection.query(table));
 
@@ -38,32 +41,60 @@ client.on("ready", () => {
 });
 //function(){} is the same as ()=>{}
 
-function createUserIfNotExists(username,discordId){
+function createUserIfNotExists(username, discordId) {
     return Bruger.getIdFromDiscord(discordId).then(([userId]) => {
-        if(!userId){
-            return Bruger.createBruger(username,discordId)
-                .then((responsible)=>{
+        if (!userId) {
+            return Bruger.createBruger(username, discordId)
+                .then((responsible) => {
                     return responsible.insertId;
-                });   
-        }
-        else {
+                });
+        } else {
             return userId.id;
         }
     });
 }
 
-client.on('messageCreate',(message) => {
-   if(message.content.startsWith(prefix)){
-       createUserIfNotExists(message.author.username,message.author.id).then((brugerId)=>{
-            console.log(brugerId);
-       });
-   }
+// Funktion der tager discord besked (det antages det starter med et prefix termineret med et whitespace)
+// Og retunerer et objekt med kommandoen og dens argumenter.
+function parseArgs(command) {
+    // Normaliser mellemrum så X antal mellemrum bliver til 1
+    // Herefter del med ' ' for at opdele argumenter
+    command = command.replace(/\s+/g, ' ').split(' ');
+    // Behanld første arg som kommandoen, herefter er resten argumenterne.
+    return {
+        command: command[1] || '',
+        args: command.splice(2)
+    }
+}
+
+client.on('messageCreate', (message) => {
+    if (message.content.startsWith(prefix)) {
+        createUserIfNotExists(message.author.username, message.author.id).then((brugerId) => {
+            let parsedCommand = parseArgs(message.content);
+
+            for (const command of commands) {
+                if ([command.command, ...command.alias].includes(parsedCommand.command)) {
+                    if (command.args.length < parsedCommand.args.length) {
+                        return message.reply(`Too many arguments for the command ${command.command} expected max ${command.args.length}`);
+                    } else if (parsedCommand.args.length > 0) {
+                        for (const arg of command.args) {
+                            for (const narg of parsedCommand.args) {
+                                if (arg.pattern.test(narg)) {
+                                    return command.cb(message, parsedCommand.args, brugerId);
+                                }
+                            }
+                        }
+                    } else {
+                        return command.cb(message, parsedCommand.args, brugerId);
+                    }
+                }
+            }
+
+            // If no command 
+            message.reply(`${parsedCommand.command} is not valid. Try the "${prefix} help" command.`);
+        });
+    }
 });
 
 //using dotenv, login using the discord token :)
 client.login(process.env.DISCORD_TOKEN);
-
-FighterPedia.createFighter("Søren", "https://cdn.discordapp.com/attachments/682506068705673218/971706152498909224/unknown.png", 0, 1, {}, ["pound"], ["normal"])
-    .then(response => {
-        console.log(response);
-    });
