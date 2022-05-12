@@ -9,7 +9,7 @@ class Fighter extends SQLBase {
         return this.makeQuery(`SELECT * FROM FighterPedia;`)
             .then(fp => {
                 const randomFighter = fp[Math.floor(Math.random() * fp.length)];
-                return this.makeQuery(`INSERT INTO Fighter(custom_name, fid, xp, added_stats, bid) VALUES("${randomFighter.navn}", ${randomFighter.fid}, 0, "{}", ${brugerId})`)
+                return this.makeQuery(`INSERT INTO Fighter(custom_name, fid, xp, added_stats, bid) VALUES("${randomFighter.navn}", ${randomFighter.id}, 0, "{}", ${brugerId})`)
                     .then(response => {
                         return response.insertId;
                     });
@@ -21,11 +21,11 @@ class Fighter extends SQLBase {
     }
 
     getAllFighters(brugerId) {
-        return this.makeQuery(`SELECT * FROM Fighter WHERE bid = ${brugerId};`);
+        return this.makeQuery(`SELECT Fighter.id, FighterPedia.id as id2, custom_name, fid, xp, added_stats, bid, navn, billede, moves, types, stats, price, rarity FROM Fighter LEFT JOIN FighterPedia ON Fighter.fid = FighterPedia.id WHERE Fighter.bid = ${brugerId};`);
     }
 
     getFighter(brugerId, fighterId) {
-        return this.makeQuery(`SELECT * FROM Fighter WHERE bid = ${brugerId} AND id = ${fighterId};`);
+        return this.makeQuery(`SELECT Fighter.id, FighterPedia.id as id2, custom_name, fid, xp, added_stats, bid, navn, billede, moves, types, stats, price, rarity FROM Fighter LEFT JOIN FighterPedia ON Fighter.fid = FighterPedia.id WHERE Fighter.bid = ${brugerId} AND Fighter.id = ${fighterId};`);
     }
 
     upgradeFighter(fighterId, addedStats) {
